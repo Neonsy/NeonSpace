@@ -16,8 +16,8 @@
 ## 🎯 Project Vision
 
 > [!NOTE]
-> **Personal Hub**: This is my digital space where I showcase my work, share my knowledge through blog posts, and provide information about who I am.
-> It's designed to be a beautiful, modern experience that reflects my approach to web development.
+> **Personal Hub**: This is my digital space where I showcase my work, share my thoughts through blog posts, and provide a way to contact me.
+> It's designed as a reflection of myself, while also providing a modern experience.
 
 ### 🧠 The Knowledge Seeker's Approach
 
@@ -31,28 +31,30 @@ My approach to development and life revolves around:
 
 > [!TIP]
 > **Why This Matters**: In a world of rapid technological change, the ability to connect dots across domains is more valuable than deep expertise in any single area.
+> But this also applies to life itself, not just technology.
 
 ---
 
 ## 💭 My Beliefs & Values
-
-### 🏢 Corporate Culture vs Personal Motivation
-
-I believe in **user-centric design** and **personal motivation** over corporate-driven development.
-Too often, projects are built to satisfy CEOs and shareholders rather than actual users.
-I focus on creating technology that serves people first, not profit margins.
 
 ### ⚖️ Work-Life Balance & Passion
 
 **Passion should never be killed by corporate demands.**
 I believe in maintaining work-life balance while staying motivated through personal drive, not external pressure.
 Quality work comes from genuine interest and sustainable practices, not burnout culture.
+Even in smaller things like hobby projects, it is important to follow your own interests, which are usually tied to ones passions.
 
 ### 🎯 User-Centric Development
 
 Every decision in my development process prioritizes the human experience.
-I build for users, not for corporate checkboxes or arbitrary metrics.
-Technology should enhance lives, not complicate them.
+I want to build for users, not for corporate checkboxes or arbitrary metrics.
+Technology should enhance lives.
+
+### 🏢 Corporate Culture vs Personal Motivation
+
+I believe in **user-centric design** and **personal motivation** over corporate-driven development.
+Too often, projects are built to satisfy CEOs and shareholders rather than actual users.
+I focus on creating things that serve the people first, not profit margins.
 
 ### 🤝 Trusting Experts & Building Relationships
 
@@ -75,7 +77,7 @@ I believe in collaborative environments where expertise is respected, not overri
 
 -   **Vercel** - Hosting and deployment
 -   **Payload CMS** - Headless CMS for content management, focused on Next.js
--   **Cloudflare** - DNS, DDoS protection and file storage
+-   **Cloudflare** - DNS, DDoS protection (potentially for file storage)
 
 ### Development Philosophy
 
