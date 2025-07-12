@@ -143,6 +143,15 @@ It's a **living experiment** in:
 
 ![Repo stats](https://repobeats.axiom.co/api/embed/a5589249b1cf6d8d90768eb6b4dbd45d904c6a45.svg 'Repobeats analytics image')
 
+## Star History
+
+<a href="https://www.star-history.com/#Neonsy/NeonSpace&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Neonsy/NeonSpace&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Neonsy/NeonSpace&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Neonsy/NeonSpace&type=Date" />
+ </picture>
+</a>
 ---
 
 ## 📄 License
