@@ -5,20 +5,20 @@
 <p align="center">
   <a href="https://github.com/Neonsy/NeonSpace/issues">
     <img alt="Issues" src="https://img.shields.io/github/issues/Neonsy/NeonSpace?style=for-the-badge&logo=github&logoColor=fff&labelColor=0B1221&color=471838" />
-  </a>&#8194;&#8194;
+  </a>&#8194
   <a href="https://github.com/Neonsy/NeonSpace/pulls">
     <img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/Neonsy/NeonSpace?style=for-the-badge&logo=github&logoColor=fff&labelColor=0B1221&color=1E40AF&label=PRs" />
-  </a>&#8194;&#8194;
+  </a>&#8194
   <a href="https://github.com/Neonsy/NeonSpace/network/members">
     <img alt="Forks" src="https://img.shields.io/github/forks/Neonsy/NeonSpace?style=for-the-badge&logo=github&logoColor=fff&labelColor=0B1221&color=3D66B8" />
-  </a>&#8194;&#8194;
+  </a>&#8194
   <a href="https://github.com/Neonsy/NeonSpace/stargazers">
     <img alt="Stars" src="https://img.shields.io/github/stars/Neonsy/NeonSpace?style=for-the-badge&logo=github&logoColor=fff&labelColor=0B1221&color=CA8A04" />
   </a>
   <br><br>
   <a href="https://ossinsight.io/analyze/Neonsy/NeonSpace#overview">
     <img alt="OSS Insight" src="https://img.shields.io/badge/Insights-Analyze-0E7490?style=for-the-badge&logo=github&logoColor=fff&labelColor=0B1221" />
-  </a>&#8194;&#8194;
+  </a>&#8194
   <a href="https://app.codacy.com/gh/Neonsy/NeonSpace/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
     <img alt="Codacy Grade" src="https://img.shields.io/codacy/grade/7e081aabb9f24e5ba5323d96d1c9e89c?style=for-the-badge&logo=codacy&logoColor=fff&label=Codacy&labelColor=0B1221" />
   </a>
