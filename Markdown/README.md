@@ -76,7 +76,7 @@ Even for hobby projects, follow your interests, which are tied to your passions.
 
 -   Next.js + React + TypeScript
 -   Tailwind CSS v4 (with tailwind-clamp)
--   Vercel hosting; Payload CMS; Cloudflare DNS
+-   Vercel hosting; Sanity CMS (for now); Cloudflare DNS
 
 ---
 
