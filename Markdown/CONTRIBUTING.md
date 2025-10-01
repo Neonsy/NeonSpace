@@ -43,24 +43,23 @@ This ensures progressive stability validation as code moves through the developm
 
 ### Automation / CI Status
 
-| Label Title             | When to use it                                                             |
-| ----------------------- | -------------------------------------------------------------------------- |
-| Formatting Drift        | When Biome reports formatting differences during `pnpm run lint` or in CI. |
-| Formatting Synchronized | When CI auto-formats files with Biome and pushes/notes the change.         |
-| Diagnostics Failing     | When Biome lint jobs fail in CI.                                           |
-| Lint Stable             | When all Biome lint checks pass in CI.                                     |
-| Types Stable            | When the TypeScript type-check job passes in CI.                           |
-| Type System Offline     | When the TypeScript type-check job fails in CI.                            |
-
-| Simulation Failure | When any test job fails in CI. |
-| Simulation Verified | When all test jobs pass in CI. |
-| Assembly Malfunction | When the build job fails in CI. |
-| Assembly Complete | When the build job succeeds in CI. |
-| Staging Deployed | When a preview URL is successfully deployed for this PR. |
-| Staging Malfunction | When preview deployment for this PR fails. |
-| Supply Drop Incoming | On PRs opened by Dependabot (should be applied automatically by automation). |
-| Cargo Manifest Updated | When package manifests or lockfiles change in the PR. |
-| System Overhaul | When the PR introduces a semver-major or public API breaking change. |
+| Label Title             | When to use it                                                               |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| Formatting Drift        | When Biome reports formatting differences during `pnpm run lint` or in CI.   |
+| Formatting Synchronized | When CI auto-formats files with Biome and pushes/notes the change.           |
+| Diagnostics Failing     | When Biome lint jobs fail in CI.                                             |
+| Lint Stable             | When all Biome lint checks pass in CI.                                       |
+| Types Stable            | When the TypeScript type-check job passes in CI.                             |
+| Type System Offline     | When the TypeScript type-check job fails in CI.                              |
+| Simulation Failure      | When any test job fails in CI.                                               |
+| Simulation Verified     | When all test jobs pass in CI.                                               |
+| Assembly Malfunction    | When the build job fails in CI.                                              |
+| Assembly Complete       | When the build job succeeds in CI.                                           |
+| Staging Deployed        | When a preview URL is successfully deployed for this PR.                     |
+| Staging Malfunction     | When preview deployment for this PR fails.                                   |
+| Supply Drop Incoming    | On PRs opened by Dependabot (should be applied automatically by automation). |
+| Cargo Manifest Updated  | When package manifests or lockfiles change in the PR.                        |
+| System Overhaul         | When the PR introduces a semver-major or public API breaking change.         |
 
 ### Issue Types
 
