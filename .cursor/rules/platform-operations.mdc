@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # Platform & Operations
 
 ## Commands & Packages
@@ -29,6 +33,12 @@
 ## Context & Retrieval
 
 - When working on something "specific", refresh knowledge with Context7 MCP before proposing changes
+
+### Search Tools
+
+- Only use grep for targeted actions when you already have specific information (e.g., exact symbol names, file paths, or known patterns)
+- Use the search tool (project index/codebase_search) when you need information about references, usage patterns, or understanding how something works
+- When in doubt, prefer the search tool over grep
 
 ## Cross-references
 

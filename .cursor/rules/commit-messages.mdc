@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # Commit Messages
 
 - Use single-sentence Conventional Commits (feat/fix/docs/chore/refactor; optional scope). For large changes, add a short bullet list of secondary changes below.
