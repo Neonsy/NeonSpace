@@ -16,6 +16,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;
 [![Codacy Badge](https://img.shields.io/codacy/grade/9f14ecab0aa4479e93c20ba846f4396a?style=for-the-badge&logo=codacy&logoColor=fff&label=Codacy&labelColor=0B1221)](https://app.codacy.com/gh/Neonsy/NeonSpace/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
+[![Discord](https://img.shields.io/badge/Discord-Join%20the%20Conversation-7289DA?style=for-the-badge&logo=discord&logoColor=fff&labelColor=0B1221)](https://discord.gg/yrHX3UhtkS)
+&nbsp;&nbsp;&nbsp;&nbsp;
 [![Ko‑fi](https://img.shields.io/badge/Ko%E2%80%91fi-Support-DC2626?style=for-the-badge&logo=kofi&logoColor=fff&labelColor=0B1221)](https://ko-fi.com/neonsy)
 
 </div>
@@ -100,6 +102,14 @@ The [`dev` branch](https://github.com/Neonsy/NeonSpace/tree/dev) hosts the lates
 > [!NOTE]
 > Ready to explore?
 > Whether you are a fellow knowledge seeker, a developer looking for inspiration, or someone who believes in building technology that serves people first, you are welcome here.
+
+---
+
+## Get in Touch
+
+If you have any questions, want to collaborate, or just want to connect, feel free to join my Discord server:
+
+[![Discord](https://img.shields.io/badge/Discord-Neon%20Tech%20Space-7289DA?style=for-the-badge&logo=discord&logoColor=fff&labelColor=0B1221)](https://discord.gg/yrHX3UhtkS)
 
 ---
 
