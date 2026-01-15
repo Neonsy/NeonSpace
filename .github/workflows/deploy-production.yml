@@ -1,0 +1,82 @@
+name: Deploy Production
+on:
+    push:
+        branches: ['main']
+concurrency:
+    group: deploy-production-${{ github.repository }}-${{ github.ref_name }}
+    cancel-in-progress: true
+
+jobs:
+    check_pr:
+        runs-on: ubuntu-latest
+        outputs:
+            is_merged_pr: ${{ steps.check.outputs.is_merged_pr }}
+        steps:
+            - name: Check if commit is from merged PR
+              id: check
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  # Check if commit is associated with a merged PR
+                  pr_number=$(gh pr list --repo "${{ github.repository }}" --state merged --search "${{ github.sha }}" --json number --jq '.[0].number // empty')
+                  if [[ -n "$pr_number" ]]; then
+                      echo "is_merged_pr=true" >> $GITHUB_OUTPUT
+                      echo "✅ Commit ${{ github.sha }} is from merged PR #$pr_number"
+                  else
+                      echo "is_merged_pr=false" >> $GITHUB_OUTPUT
+                      echo "❌ Commit ${{ github.sha }} is not from a merged PR"
+                  fi
+
+    deploy_production:
+        needs: check_pr
+        if: needs.check_pr.outputs.is_merged_pr == 'true'
+        runs-on: ubuntu-latest
+        environment: Vercel
+        defaults:
+            run:
+                working-directory: Project
+        steps:
+            - name: Checkout
+              uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+              with:
+                  fetch-depth: 0
+                  ref: ${{ github.head_ref }}
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
+              with:
+                  package_json_file: Project/package.json
+
+            - name: Setup Node
+              uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+              with:
+                  node-version-file: Project/.node-version
+                  cache: pnpm
+                  cache-dependency-path: Project/pnpm-lock.yaml
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Install Vercel CLI
+              run: pnpm add -g vercel@latest
+
+            - name: Pull Vercel environment variables
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+              run: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+
+            - name: Build with Vercel
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+              run: vercel build --prod --token=$VERCEL_TOKEN
+
+            - name: Deploy to Vercel
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+              run: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN

@@ -1,0 +1,6 @@
+{
+    // Start the integrated terminal in the app workspace directory
+    // Change to "${workspaceFolder}/.." if you intended the parent Projects directory
+    "terminal.integrated.cwd": "${workspaceFolder}/Project",
+    "typescript.enablePromptUseWorkspaceTsdk": true
+}

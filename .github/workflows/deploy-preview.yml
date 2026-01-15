@@ -1,0 +1,159 @@
+name: Deploy Preview
+on:
+    pull_request:
+        branches: [preview, main]
+        types: [opened, synchronize]
+concurrency:
+    group: deploy-preview-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+jobs:
+    wait_for_main_ci:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Wait for Main PR Workflow to complete
+              uses: lewagon/wait-on-check-action@3603e826ee561ea102b58accb5ea55a1a7482343
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }}
+                  check-name: 'ci'
+                  repo-token: ${{ github.token }}
+                  wait-interval: 9
+
+    deploy_preview:
+        needs: wait_for_main_ci
+        runs-on: ubuntu-latest
+        environment: Vercel
+        permissions:
+            contents: read
+            pull-requests: write
+        defaults:
+            run:
+                working-directory: Project
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+              with:
+                  fetch-depth: 0
+                  ref: ${{ github.head_ref }}
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
+              with:
+                  package_json_file: Project/package.json
+
+            - name: Setup Node
+              uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+              with:
+                  node-version-file: Project/.node-version
+                  cache: pnpm
+                  cache-dependency-path: Project/pnpm-lock.yaml
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Install Vercel CLI
+              run: pnpm add -g vercel@latest
+
+            - name: Pull Vercel environment variables
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+              run: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+
+            - name: Build with Vercel
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+              run: vercel build --token=$VERCEL_TOKEN
+
+            - name: Deploy to Vercel
+              id: deploy
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+              run: |
+                  set -e
+                  vercel deploy --prebuilt --token="$VERCEL_TOKEN" 2>&1 | tee deploy.log
+
+                  # Parse from Vercel CLI output (simple and reliable)
+                  deployment_url="$(awk '/^Preview: /{print $2}' deploy.log | tail -n1)"
+                  details_url="$(awk '/^Inspect: /{print $2}' deploy.log | tail -n1)"
+
+                  # Fallback: last vercel.app URL if Preview line not found
+                  if [ -z "$deployment_url" ]; then
+                    deployment_url="$(grep -Eo 'https://[^ ]+vercel\.app' deploy.log | tail -n1)"
+                  fi
+
+                  if [ -n "$deployment_url" ]; then
+                    echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
+                  fi
+                  if [ -n "$details_url" ]; then
+                    echo "details=$details_url" >> "$GITHUB_OUTPUT"
+                  fi
+
+                  echo "✅ Deployment successful: $deployment_url"
+
+            # Success Labels & Comment
+            - if: steps.deploy.outputs.url
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+              run: |
+                  gh pr edit "$PR_NUMBER" --repo "$GH_REPO" --remove-label "Staging Malfunction"
+                  gh pr edit "$PR_NUMBER" --repo "$GH_REPO" --add-label "Staging Deployed"
+
+            - if: steps.deploy.outputs.url
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+                  COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+                  REPO_NAME: ${{ github.repository }}
+                  DEPLOY_URL: ${{ steps.deploy.outputs.url }}
+                  DEPLOY_DETAILS_URL: ${{ steps.deploy.outputs.details }}
+              run: |
+                  short_sha="${COMMIT_SHA:0:7}"
+
+                  # Project Dashboard (team/project) from the details URL
+                  project_url="$DEPLOY_DETAILS_URL"
+                  if [ -n "$project_url" ]; then
+                    project_url="${project_url%/*}"
+                  else
+                    project_url="https://vercel.com/neonspace/neonspace"
+                  fi
+
+                  details_link="$DEPLOY_DETAILS_URL"
+                  if [ -z "$details_link" ]; then
+                    details_link="$project_url"
+                  fi
+
+                  cat << EOF > comment.md
+                  ## 🛰️ Mission Control — Preview Deployed
+
+                  | Parameter | Value |
+                  | --- | --- |
+                  | Repository | **$REPO_NAME** |
+                  | Commit | **\`$short_sha\`** |
+                  | Environment | **Preview** |
+                  | 🌐 Launch Preview (Live) | **[Open Preview]($DEPLOY_URL)** |
+                  | 🔎 Deployment Details (Build & Logs) | **[Open Details]($details_link)** |
+                  | 📊 Project Dashboard (Overview) | **[Open Dashboard]($project_url)** |
+
+                  EOF
+
+                  gh pr comment "$PR_NUMBER" --repo "$GH_REPO" --body-file comment.md
+
+            # Failure Labels
+            - if: failure()
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+              run: |
+                  gh pr edit "$PR_NUMBER" --repo "$GH_REPO" --remove-label "Staging Deployed"
+                  gh pr edit "$PR_NUMBER" --repo "$GH_REPO" --add-label "Staging Malfunction"

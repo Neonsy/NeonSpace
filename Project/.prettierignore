@@ -1,0 +1,11 @@
+node_modules
+.output
+dist
+pnpm-lock.yaml
+coverage
+.vercel
+public
+.turbo
+.git
+.pnpm-store
+convex/_generated
