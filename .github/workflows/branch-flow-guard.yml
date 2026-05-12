@@ -1,0 +1,49 @@
+name: Branch Flow Guard
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+    branches:
+      - main
+      - prev
+      - dev
+
+permissions:
+  contents: read
+
+jobs:
+  branch-flow-guard:
+    name: Branch Flow Guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate pull request flow
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.event.pull_request.base.repo.full_name }}
+        run: |
+          echo "Base branch: ${BASE_REF}"
+          echo "Head branch: ${HEAD_REF}"
+          echo "Head repo: ${HEAD_REPO}"
+          echo "Base repo: ${BASE_REPO}"
+
+          if [ "${BASE_REF}" = "main" ]; then
+            if [ "${HEAD_REF}" != "prev" ] || [ "${HEAD_REPO}" != "${BASE_REPO}" ]; then
+              echo "::error::Pull requests into main must come from prev in this repository."
+              exit 1
+            fi
+          fi
+
+          if [ "${BASE_REF}" = "prev" ]; then
+            if [ "${HEAD_REF}" != "dev" ] || [ "${HEAD_REPO}" != "${BASE_REPO}" ]; then
+              echo "::error::Pull requests into prev must come from dev in this repository."
+              exit 1
+            fi
+          fi
+
+          echo "Branch flow is valid."
